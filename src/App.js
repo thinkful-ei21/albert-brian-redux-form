@@ -1,6 +1,8 @@
 import React from 'react';
 import {reduxForm, Field} from 'redux-form';
 
+import Input from './components/input.js';
+import submitReport from './components/actions.js';
 import {required, isEmpty, lengthCheck, isNumber} from './components/validator.js';
 
 import './App.css';
@@ -14,12 +16,13 @@ class App extends React.Component {
     return (
       <div className="delivery-form">
         <h2>Report a problem with your delivery</h2>
-        <form onSubmit={this.props.handleSubmit(values => this.submitStuff(values))}>
+        <form onSubmit={this.props.handleSubmit(values => submitReport(values))}>
           <div className="form-input">
-            <label htmlFor="tracking-number">Tracking Number</label>
+            <label htmlFor="trackingNumber">Tracking Number</label>
             <Field
-              component="input"
-              name="tracking-number"
+              component={Input}
+              element="input"
+              name="trackingNumber"
               id="trackingNumber"
               type="text"
               validate={[required, isEmpty, lengthCheck, isNumber]}
@@ -28,10 +31,13 @@ class App extends React.Component {
           </div>
           <div className="form-input">
             <Field
-              component="select"
+              component={Input}
+              element="select"
               name="issue"
               id="issue"
+              validate={[required]}
             >
+              <option>Choose an issue</option>
               <option value="not-delivered">My delivery has not arrived</option>
               <option value="wrong-item">Wrong item was delivered</option>
               <option value="missing-part">Part of my delivery is missing</option>
